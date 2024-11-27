@@ -21,11 +21,10 @@ ENV PATH="/opt/venv/bin:$PATH"
 # Copiar el archivo de requisitos al contenedor e instalar dependencias del sistema
 COPY requirements.txt .
 
-# Instalar las dependencias del sistema necesarias para librerías como mysqlclient
+# Instalar las dependencias del sistema necesarias para psycopg2
 RUN apt-get update && apt-get install -y \
     build-essential \
-    default-libmysqlclient-dev \
-    pkg-config \
+    libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Instalar las dependencias de Python usando pip dentro del entorno virtual
@@ -34,10 +33,6 @@ RUN pip install --upgrade pip && \
 
 # Copiar todo el código de la aplicación al directorio de trabajo en el contenedor
 COPY . .
-
-# Ejecutar migraciones de Django al construir la imagen
-RUN python manage.py makemigrations && \
-    python manage.py migrate
 
 # Exponer el puerto 9000 para el servidor de Django
 EXPOSE 8000
