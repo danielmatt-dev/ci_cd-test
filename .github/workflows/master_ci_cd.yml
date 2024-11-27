@@ -41,4 +41,4 @@ jobs:
       # 5. Construir la imagen Docker
       - name: Build Docker image
         run: |
-          docker build -t ${{secrets.DOCKER_USER}}/criticroute_api:develop .
+          docker build -t danielmatt/criticroute_api:develop .
